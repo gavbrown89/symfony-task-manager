@@ -33,7 +33,7 @@ class Task
     public function __construct()
     {
         $this->created_at = new \DateTime(); // Default to now()
-        $this->updated_at = new \DatTime(); // Default to now()
+        $this->updated_at = new \DateTime(); // Default to now()
         $this->is_done = false; // Default to false
     }
 
