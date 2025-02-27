@@ -47,4 +47,14 @@ final class TaskController extends AbstractController
 
         return new JsonResponse(['id' => $task->getId(), 'is_done' => $task->isDone()]);
     }
+
+    #[Route('/{id}/delete', name: 'delete_task', methods: ['POST'])]
+    public function delete(Task $task, Request $request, EntityManagerInterface $emi): JsonResponse
+    {
+        $task->setDeletedAt(new \DateTime());
+
+        $emi->flush();
+
+        return new JsonResponse(['id' => $task->getId(), 'deleted' => true]);
+    }
 }
