@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,21 @@ final class TaskController extends AbstractController
         return $this->render('task/index.html.twig', [
             'controller_name' => 'TaskController',
         ]);
+    }
+
+    #[Route('/tasks', name: 'list_tasks', methods: ['GET'])]
+    public function list(TaskRepository $taskRepository, Request $request): JsonResponse
+    {
+        /**
+         * Calculate pagination
+         */
+        $page = max(1, $request->query->getInt('page', 1)); // Get page number or revert to 1
+        $max = 5; // Max entries per page
+        $skip = ($page - 1) * $max; // Skip records from previous page
+
+        $tasks = $taskRepository->findTasks('DESC', $max, $skip);
+
+        return new JsonResponse(['tasks' => $tasks, 'page' => $page]);
     }
 
     #[Route('/tasks', name: 'create_task', methods: ['POST'])]
