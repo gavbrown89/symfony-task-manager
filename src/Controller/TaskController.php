@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class TaskController extends AbstractController
 {
-    #[Route('/task', name: 'app_task')]
+    #[Route('', name: 'app_task')]
     public function index(): Response
     {
         return $this->render('task/index.html.twig', [
@@ -54,7 +54,7 @@ final class TaskController extends AbstractController
         return new JsonResponse(['id' => $task->getId(), 'title' => $task->getTitle(), 'is_done' => $task->isDone()]);
     }
 
-    #[Route('/{id}/toggle', name: 'toggle_task', methods: ['POST'])]
+    #[Route('/tasks/{id}/toggle', name: 'toggle_task', methods: ['POST'])]
     public function toggle(Task $task, Request $request, EntityManagerInterface $emi): JsonResponse
     {
         $task->setIsDone(!$task->isDone());
@@ -64,7 +64,7 @@ final class TaskController extends AbstractController
         return new JsonResponse(['id' => $task->getId(), 'is_done' => $task->isDone()]);
     }
 
-    #[Route('/{id}/delete', name: 'delete_task', methods: ['POST'])]
+    #[Route('/tasks/{id}/delete', name: 'delete_task', methods: ['POST'])]
     public function delete(Task $task, Request $request, EntityManagerInterface $emi): JsonResponse
     {
         $task->setDeletedAt(new \DateTime());
