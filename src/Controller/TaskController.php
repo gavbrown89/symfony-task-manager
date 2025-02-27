@@ -36,5 +36,15 @@ final class TaskController extends AbstractController
         $emi->flush();
 
         return new JsonResponse(['id' => $task->getId(), 'title' => $task->getTitle(), 'is_done' => $task->isDone()]);
-    } 
+    }
+
+    #[Route('/{id}/toggle', name: 'toggle_task', methods: ['POST'])]
+    public function toggle(Task $task, Request $request, EntityManagerInterface $emi): JsonResponse
+    {
+        $task->setIsDone(!$task->isDone());
+
+        $emi->flush();
+
+        return new JsonResponse(['id' => $task->getId(), 'is_done' => $task->isDone()]);
+    }
 }
