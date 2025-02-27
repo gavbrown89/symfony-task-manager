@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 #[ORM\Table(name:'tasks')]
+#[ORM\HasLifecycleCallbacks]
 class Task
 {
     #[ORM\Id]
@@ -33,7 +34,7 @@ class Task
     public function __construct()
     {
         $this->created_at = new \DateTime(); // Default to now()
-        $this->updated_at = new \DatTime(); // Default to now()
+        $this->updated_at = new \DateTime(); // Default to now()
         $this->is_done = false; // Default to false
     }
 
@@ -83,11 +84,10 @@ class Task
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updated_at): static
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): void
     {
-        $this->updated_at = $updated_at;
-
-        return $this;
+        $this->updated_at = new \DateTime();
     }
 
     public function getDeletedAt(): ?\DateTimeInterface
