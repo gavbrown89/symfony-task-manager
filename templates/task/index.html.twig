@@ -1,20 +1,69 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TaskController!{% endblock %}
+{% block title %}Task List{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="max-w-lg mx-auto mt-8">
+    <h2 class="text-xl font-bold mb-4">Task List</h2>
+    <div class="bg-white shadow-md rounded-lg p-4 ">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <div class="relative inline-block text-left">
+            <div>
+                <button type="button" id="sort-tasks" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" id="menu-button" aria-expanded="false" aria-haspopup="true">
+                  Sort
+                  <svg class="-mr-1 ml-1 size-5 shrink-0 text-gray-400 group-hover:text-gray-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                    <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+            </div>
+            <div id="sort-menu" class="hidden left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                <div class="py-1" role="none">
+                  <button
+                    type="button"
+                    class="sort-item block px-4 py-2 text-sm font-medium text-gray-900"
+                    data-value="desc"
+                    role="menuitem"
+                    tabindex="-1"
+                    id="menu-item-0">Newest</button>
+                  <button
+                    type="button"
+                    class="sort-item block px-4 py-2 text-sm text-gray-500"
+                    data-value="asc"
+                    role="menuitem"
+                    tabindex="-1"
+                    id="menu-item-1">Oldest</button>
+                </div>
+            </div>
+        </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/tasks/drimify/symfony_task_manager/src/Controller/TaskController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/tasks/drimify/symfony_task_manager/templates/task/index.html.twig</code></li>
-    </ul>
+        <ul id="task-list" class="divide-y divide-gray-100">
+       
+        </ul>
+
+        <nav class="flex items-center justify-between border-t border-gray-200 bg-white px-0 py-3" aria-label="Pagination">
+            <div class="hidden sm:block">
+                <p class="text-sm text-gray-700">
+                    Showing
+                    <span id="pagination-start" class="font-medium">1</span>
+                    to
+                    <span id="pagination-end" class="font-medium">10</span>
+                    of
+                    <span id="pagination-total" class="font-medium">20</span>
+                    results
+                </p>
+            </div>
+            <div class="flex flex-1 justify-between sm:justify-end">
+                <button type="button" id="prev-page" class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0">Previous</button>
+                <button type="button" id="next-page" class="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0">Next</button>
+            </div>
+        </nav>
+    </div>
+
+    <form id="task-form" class="mt-4 flex">
+        <input type="text" id="task-title" class="border p-2 flex-grow rounded-l" placeholder="New task..." required>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r">
+            Add
+        </button>
+    </form>
 </div>
 {% endblock %}
