@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,7 +48,7 @@ final class TaskController extends AbstractController
     }
 
     #[Route('/tasks', name: 'create_task', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $emi): JsonResponse
+    public function create(Request $request, ValidatorInterface $validator, EntityManagerInterface $emi): JsonResponse
     {
         $csrfToken = $request->request->get('_csrf_token');
 
@@ -58,12 +59,18 @@ final class TaskController extends AbstractController
 
         $title = $request->request->get('title');
 
-        if (!$title) {
-            return new JsonResponse(['error' => 'Title is required'], Response::HTTP_BAD_REQUEST);
-        }
-
         $task = new Task();
         $task->setTitle($title);
+
+        // Validated title
+        $errors = $validator->validate($task);
+
+        // Return errors
+        if (count($errors) > 0) {
+            $errorsString = (string) $errors;
+
+            return new JsonResponse(['error' => $errorsString], Response::HTTP_BAD_REQUEST);
+        }
 
         $emi->persist($task);
         $emi->flush();
