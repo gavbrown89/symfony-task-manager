@@ -53,6 +53,29 @@ function render(tasks) {
     })
 }
 
+// Create new task
+$(document).on('submit', '#task-form', function(e) {
+    e.preventDefault();
+
+    let title = $('#task-title').val();
+
+    $.ajax({
+        url: '/tasks',
+        method: 'POST',
+        data: {
+            title: title
+        },
+        success: function() {
+            $('#task-title').val('');
+
+            loadTasks(); // Reload task list
+        },
+        error: function (error) {
+            console.log('Error creating task: ', error);
+        }
+    });
+});
+
 // Toggle task status
 $(document).on('click', '.toggle-task', function() {
     let button = $(this);
