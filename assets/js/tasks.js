@@ -42,7 +42,11 @@ function render(tasks) {
                             <span aria-hidden="true" class="pointer-events-none inline-block size-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${task.is_done ? 'translate-x-0' : 'translate-x-5'}"></span>
                     </button>
                 
-                    <button class="hidden rounded-md bg-red-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm ring-1 ring-inset hover:bg-red-500 sm:block">Delete</button>
+                    <button
+                        type="button"
+                        class="delete-task rounded-md bg-red-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm ring-1 ring-inset hover:bg-red-500 sm:block"
+                        data-id="${task.id}"
+                        >Delete</button>
                 </div>
             </li>
         `);
@@ -65,6 +69,25 @@ $(document).on('click', '.toggle-task', function() {
 
             button.toggleClass('bg-indigo-600 bg-gray-200');        
             button.find('span[aria-hidden="true"]').toggleClass('translate-x-5 translate-x-0');
+        },
+        error: function (error) {
+            console.log('Error toggling status: ', error);
+        }
+    });
+});
+
+// Delete task
+$(document).on('click', '.delete-task', function() {
+    let button = $(this);
+    const id = button.data('id');
+
+    $.ajax({
+        url: `/tasks/${id}/delete`,
+        method: 'POST',
+        success: function(response) {
+            button.closest('li').fadeOut(300, function() {
+                $(this).remove();
+            });
         },
         error: function (error) {
             console.log('Error toggling status: ', error);
