@@ -49,6 +49,13 @@ final class TaskController extends AbstractController
     #[Route('/tasks', name: 'create_task', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $emi): JsonResponse
     {
+        $csrfToken = $request->request->get('_csrf_token');
+
+        // Check valid CSRF token
+        if (!$this->isCsrfTokenValid('create-task', $csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid token'], Response::HTTP_BAD_REQUEST);
+        }
+
         $title = $request->request->get('title');
 
         if (!$title) {
