@@ -12,13 +12,13 @@ function loadTasks(page = 1) {
         method: 'GET',
         dataType: 'json',
         success: function (response) {
-            render(response.tasks);
             currentPage = response.page;
             totalPages = response.totalPages;
             totalTasks = response.totalTasks;
 
             updatePaginationText();
             updatePaginationBtns();
+            render(response.tasks);
         },
         error: function (error) {
             console.log('Error: ', error);
@@ -118,9 +118,10 @@ $(document).on('click', '.delete-task', function() {
     $.ajax({
         url: `/tasks/${id}/delete`,
         method: 'POST',
-        success: function(response) {
+        success: function() {
             button.closest('li').fadeOut(300, function() {
                 $(this).remove();
+                loadTasks(currentPage); // Reload task list
             });
         },
         error: function (error) {
