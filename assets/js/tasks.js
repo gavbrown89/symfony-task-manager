@@ -4,11 +4,12 @@ let currentPage = 1;
 let totalPages = 1;
 let totalTasks = 0;
 let tasksPerPage = 5;
+let orderBy = 'desc';
 
 // fetch tasks via Ajax
 function loadTasks(page = 1) {
     $.ajax({
-        url: `/tasks?page=${page}`,
+        url: `/tasks?page=${page}&&order=${orderBy}`,
         method: 'GET',
         dataType: 'json',
         success: function (response) {
@@ -165,6 +166,27 @@ $(document).on('click', '#next-page', function() {
         currentPage = newPage;
         loadTasks(newPage);
     }
+});
+
+// Toggle sort tasks menu
+function toggleSortMenu() {
+    $('#sort-menu').toggleClass('absolute hidden');
+}
+$(document).on('click', '#sort-tasks', function() {
+    toggleSortMenu();
+});
+// Sort tasks
+$(document).on('click', '.sort-item', function() {
+    let button = $(this);
+    const value = button.data('value');
+    orderBy = value;
+
+    $('#sort-menu button').removeClass('text-gray-900').addClass('text-gray-500');
+    button.toggleClass('text-gray-900 text-gray-500');
+
+    loadTasks(currentPage); // Reload task list
+
+    toggleSortMenu();
 });
 
 $(function() {

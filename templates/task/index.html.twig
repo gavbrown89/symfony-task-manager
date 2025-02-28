@@ -6,6 +6,36 @@
 <div class="max-w-lg mx-auto mt-8">
     <h2 class="text-xl font-bold mb-4">Task List</h2>
     <div class="bg-white shadow-md rounded-lg p-4 ">
+
+        <div class="relative inline-block text-left">
+            <div>
+                <button type="button" id="sort-tasks" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" id="menu-button" aria-expanded="false" aria-haspopup="true">
+                  Sort
+                  <svg class="-mr-1 ml-1 size-5 shrink-0 text-gray-400 group-hover:text-gray-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                    <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+            </div>
+            <div id="sort-menu" class="hidden left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                <div class="py-1" role="none">
+                  <button
+                    type="button"
+                    class="sort-item block px-4 py-2 text-sm font-medium text-gray-900"
+                    data-value="desc"
+                    role="menuitem"
+                    tabindex="-1"
+                    id="menu-item-0">Newest</button>
+                  <button
+                    type="button"
+                    class="sort-item block px-4 py-2 text-sm text-gray-500"
+                    data-value="asc"
+                    role="menuitem"
+                    tabindex="-1"
+                    id="menu-item-1">Oldest</button>
+                </div>
+            </div>
+        </div>
+
         <ul id="task-list" class="divide-y divide-gray-100">
        
         </ul>
