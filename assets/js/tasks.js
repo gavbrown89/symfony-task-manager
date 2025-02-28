@@ -1,5 +1,7 @@
 import $ from 'jquery';
 
+let currentPage = 1;
+
 // fetch tasks via Ajax
 function loadTasks(page = 1) {
     $.ajax({
@@ -116,6 +118,22 @@ $(document).on('click', '.delete-task', function() {
             console.log('Error toggling status: ', error);
         }
     });
+});
+
+// Previous page
+$(document).on('click', '#prev-page', function() {
+    if (currentPage > 1) {
+        const newPage = currentPage - 1;
+        currentPage = newPage;
+        loadTasks(newPage);
+    }
+});
+
+// Next page
+$(document).on('click', '#next-page', function() {
+    const newPage = currentPage + 1;
+    currentPage = newPage;
+    loadTasks(newPage);
 });
 
 $(function() {
