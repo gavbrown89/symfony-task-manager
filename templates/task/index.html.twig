@@ -3,18 +3,24 @@
 {% block title %}Hello TaskController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/tasks/drimify/symfony_task_manager/src/Controller/TaskController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/tasks/drimify/symfony_task_manager/templates/task/index.html.twig</code></li>
-    </ul>
+<div class="max-w-lg mx-auto mt-8">
+    <h2 class="text-xl font-bold mb-4">Task List</h2>
+        <ul id="task-list" class="bg-white shadow-md rounded-lg p-4">
+            <!-- Tasks will be listed here -->
+        </ul>
+    <div class="mt-4 flex justify-between">
+        <button id="prev-page" class="bg-gray-300 px-4 py-2 rounded">
+            Previous
+        </button>
+        <button id="next-page" class="bg-gray-300 px-4 py-2 rounded">
+            Next
+        </button>
+    </div>
+    <form id="task-form" class="mt-4 flex">
+        <input type="text" id="task-title" class="border p-2 flex-grow rounded-l" placeholder="New task..." required>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r">
+            Add
+        </button>
+    </form>
 </div>
 {% endblock %}
