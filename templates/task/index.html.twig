@@ -5,17 +5,30 @@
 {% block body %}
 <div class="max-w-lg mx-auto mt-8">
     <h2 class="text-xl font-bold mb-4">Task List</h2>
-        <ul id="task-list" class="bg-white shadow-md rounded-lg p-4 divide-y divide-gray-100">
-            <!-- Tasks will be listed here -->
+    <div class="bg-white shadow-md rounded-lg p-4 ">
+        <ul id="task-list" class="divide-y divide-gray-100">
+       
         </ul>
-    <div class="mt-4 flex justify-between">
-        <button id="prev-page" class="bg-gray-300 px-4 py-2 rounded">
-            Previous
-        </button>
-        <button id="next-page" class="bg-gray-300 px-4 py-2 rounded">
-            Next
-        </button>
+
+        <nav class="flex items-center justify-between border-t border-gray-200 bg-white px-0 py-3" aria-label="Pagination">
+            <div class="hidden sm:block">
+                <p class="text-sm text-gray-700">
+                    Showing
+                    <span id="pagination-start" class="font-medium">1</span>
+                    to
+                    <span id="pagination-end" class="font-medium">10</span>
+                    of
+                    <span id="pagination-total" class="font-medium">20</span>
+                    results
+                </p>
+            </div>
+            <div class="flex flex-1 justify-between sm:justify-end">
+                <button type="button" id="prev-page" class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0">Previous</button>
+                <button type="button" id="next-page" class="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0">Next</button>
+            </div>
+        </nav>
     </div>
+
     <form id="task-form" class="mt-4 flex">
         <input type="text" id="task-title" class="border p-2 flex-grow rounded-l" placeholder="New task..." required>
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r">

@@ -31,6 +31,19 @@ class TaskRepository extends ServiceEntityRepository
            ;
        }
 
+       /**
+        * @return int Returns number of Tasks
+        */
+        public function countTasks(): int
+        {
+            return $this->createQueryBuilder('t')
+                ->select('COUNT(t.id)')
+                ->where('t.deleted_at IS NULL')
+                ->getQuery()
+                ->getSingleScalarResult()
+            ;
+        }
+
     //    public function findOneBySomeField($value): ?Task
     //    {
     //        return $this->createQueryBuilder('t')

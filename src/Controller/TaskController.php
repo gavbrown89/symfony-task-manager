@@ -32,8 +32,16 @@ final class TaskController extends AbstractController
         $skip = ($page - 1) * $max; // Skip records from previous page
 
         $tasks = $taskRepository->findTasks('DESC', $max, $skip);
+        $totalTasks = $taskRepository->countTasks(); // Total tasks
 
-        return new JsonResponse(['tasks' => $tasks, 'page' => $page]);
+        $totalPages = $taskRepository = ceil($totalTasks / $max); // Total pages
+
+        return new JsonResponse([
+            'tasks' => $tasks, 
+            'page' => $page,
+            'totalTasks' => $totalTasks,
+            'totalPages' => $totalPages
+        ]);
     }
 
     #[Route('/tasks', name: 'create_task', methods: ['POST'])]

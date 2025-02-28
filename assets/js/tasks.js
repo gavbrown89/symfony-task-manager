@@ -1,6 +1,9 @@
 import $ from 'jquery';
 
 let currentPage = 1;
+let totalPages = 1;
+let totalTasks = 0;
+let tasksPerPage = 5;
 
 // fetch tasks via Ajax
 function loadTasks(page = 1) {
@@ -10,6 +13,12 @@ function loadTasks(page = 1) {
         dataType: 'json',
         success: function (response) {
             render(response.tasks);
+            currentPage = response.page;
+            totalPages = response.totalPages;
+            totalTasks = response.totalTasks;
+
+            updatePaginationText();
+            updatePaginationBtns();
         },
         error: function (error) {
             console.log('Error: ', error);
@@ -120,6 +129,25 @@ $(document).on('click', '.delete-task', function() {
     });
 });
 
+// Pagination text
+function updatePaginationText() {
+    const start = (currentPage - 1) * tasksPerPage + 1;
+    const end = Math.min(currentPage * tasksPerPage, totalTasks);
+
+    $('#pagination-start').text(start);
+    $('#pagination-end').text(end);
+    $('#pagination-total').text(totalTasks);
+}
+
+// Pagination buttons
+function updatePaginationBtns() {
+    const prevBtn = $('#prev-page');
+    const nextBtn = $('#next-page');
+
+    prevBtn.prop('disabled', currentPage === 1);
+    nextBtn.prop('disabled', currentPage === totalPages);
+}
+
 // Previous page
 $(document).on('click', '#prev-page', function() {
     if (currentPage > 1) {
@@ -131,9 +159,11 @@ $(document).on('click', '#prev-page', function() {
 
 // Next page
 $(document).on('click', '#next-page', function() {
-    const newPage = currentPage + 1;
-    currentPage = newPage;
-    loadTasks(newPage);
+    if (currentPage < totalPages) {
+        const newPage = currentPage + 1;
+        currentPage = newPage;
+        loadTasks(newPage);
+    }
 });
 
 $(function() {
