@@ -75,6 +75,7 @@ $(document).on('submit', '#task-form', function(e) {
         url: '/tasks',
         method: 'POST',
         data: {
+            _csrf_token: $('input[name="_token"]').val(),
             title: title
         },
         success: function() {

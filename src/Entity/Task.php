@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\TaskRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 #[ORM\Table(name:'tasks')]
@@ -18,6 +20,21 @@ class Task
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
+
+    // Validator for create tasks
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    {
+        $metadata->addPropertyConstraint('title', new Assert\NotBlank());
+        $metadata->addPropertyConstraint(
+            'title',
+            new Assert\Length([
+                "min" => 3,
+                "max" => 100,
+                "minMessage" => "The title must be atleast {{ limit }} characters long",
+                "minMessage" => "The title must be no longer than {{ limit }} characters long"
+            ])
+        );
+    }
 
     #[ORM\Column]
     private ?bool $is_done = null;
