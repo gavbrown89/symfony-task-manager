@@ -37,7 +37,7 @@ final class TaskController extends AbstractController
         $tasks = $taskRepository->findTasks($orderBy, $max, $skip);
         $totalTasks = $taskRepository->countTasks(); // Total tasks
 
-        $totalPages = $taskRepository = ceil($totalTasks / $max); // Total pages
+        $totalPages = ceil($totalTasks / $max); // Total pages
 
         return new JsonResponse([
             'tasks' => $tasks, 
